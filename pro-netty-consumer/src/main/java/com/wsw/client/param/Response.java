@@ -6,7 +6,7 @@ public class Response {
     private String code = "00000"; //00000表示成功，其他表示失败
     private String msg; //失败的原因
 
-    public String getMsg() {
+    public String getMsg(String 链路请求超时) {
         return msg;
     }
 
