@@ -1,6 +1,6 @@
 package com.wsw.user.service;
 
-import com.wsw.user.bean.User;
+import com.wsw.user.model.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

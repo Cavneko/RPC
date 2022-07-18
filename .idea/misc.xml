@@ -5,6 +5,9 @@
       <list>
         <option value="$PROJECT_DIR$/pro-netty-rpc/pom.xml" />
         <option value="$PROJECT_DIR$/pro-netty-consumer/pom.xml" />
+        <option value="$PROJECT_DIR$/pro-user-api/pom.xml" />
+        <option value="$PROJECT_DIR$/pro-user-core/pom.xml" />
+        <option value="$PROJECT_DIR$/pro-basic/pom.xml" />
       </list>
     </option>
   </component>

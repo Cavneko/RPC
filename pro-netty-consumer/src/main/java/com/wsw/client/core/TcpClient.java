@@ -1,9 +1,11 @@
 package com.wsw.client.core;
 
 import com.alibaba.fastjson.JSONObject;
+import com.wsw.client.constant.Constants;
 import com.wsw.client.handler.SimpleClientHandler;
 import com.wsw.client.param.ClientRequest;
 import com.wsw.client.param.Response;
+import com.wsw.client.zk.ZookeeperFactory;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -16,6 +18,11 @@ import io.netty.handler.codec.DelimiterBasedFrameDecoder;
 import io.netty.handler.codec.Delimiters;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
+import org.apache.curator.framework.CuratorFramework;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class TcpClient {
     static final Bootstrap b = new Bootstrap();
@@ -34,8 +41,24 @@ public class TcpClient {
                 ch.pipeline().addLast(new StringEncoder());
             }
         });
+
+        CuratorFramework client = ZookeeperFactory.create();
         String host = "localhost";
         int port = 8080;
+        try {
+            List<String> serverPaths = client.getChildren().forPath(Constants.SERVER_PATH);
+            Set<String> realServerPath = new HashSet<String>();
+            for (String serverPath : serverPaths) {
+                realServerPath.add(serverPath.split("#")[0]);
+            }
+            if (realServerPath.size() > 0) {
+                host = realServerPath.toArray()[0].toString();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
         try {
             f = b.connect(host, port).sync(); // (5)
         } catch (InterruptedException e) {

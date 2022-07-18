@@ -52,7 +52,7 @@ public class NettyInitial implements ApplicationListener<ContextRefreshedEvent> 
             //get IP address
             InetAddress netAddress = InetAddress.getLocalHost();
             //注册服务器到zookeeper（临时会话）
-            client.create().withMode(CreateMode.EPHEMERAL).forPath(Constants.SERVER_PATH + netAddress.getHostAddress());
+            client.create().withMode(CreateMode.EPHEMERAL_SEQUENTIAL).forPath(Constants.SERVER_PATH + netAddress.getHostAddress() + "#");
 
             f.channel().closeFuture().sync();
             System.out.println("server is ready");

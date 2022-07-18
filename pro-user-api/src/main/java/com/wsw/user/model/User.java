@@ -1,4 +1,4 @@
-package com.wsw.user.bean;
+package com.wsw.user.model;
 
 public class User {
     private Integer id;

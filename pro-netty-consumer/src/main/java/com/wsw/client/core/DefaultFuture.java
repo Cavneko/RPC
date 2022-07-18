@@ -15,7 +15,7 @@ public class DefaultFuture {
     final Lock lock = new ReentrantLock();
     private Condition condition = lock.newCondition();
     private Response response;
-    private long timeout = Long.valueOf(2*60*1000);
+    private long timeout = 2*60*1000;
     private long startTime = System.currentTimeMillis();
 
     public long getTimeout() {

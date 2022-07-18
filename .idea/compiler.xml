@@ -6,12 +6,18 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="pro-basic" />
+        <module name="pro-user-api" />
         <module name="pro-netty-consumer" />
+        <module name="pro-user-core" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="pro-basic" target="1.7" />
       <module name="pro-netty-consumer" target="1.7" />
       <module name="pro-netty-rpc" target="8" />
+      <module name="pro-user-api" target="1.7" />
+      <module name="pro-user-core" target="1.7" />
     </bytecodeTargetLevel>
   </component>
 </project>

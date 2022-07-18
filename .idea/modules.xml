@@ -3,8 +3,11 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/RPC.iml" filepath="$PROJECT_DIR$/.idea/RPC.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pro-basic/pro-basic.iml" filepath="$PROJECT_DIR$/pro-basic/pro-basic.iml" />
       <module fileurl="file://$PROJECT_DIR$/pro-netty-consumer/pro-netty-consumer.iml" filepath="$PROJECT_DIR$/pro-netty-consumer/pro-netty-consumer.iml" />
       <module fileurl="file://$PROJECT_DIR$/pro-netty-rpc/pro-netty-rpc.iml" filepath="$PROJECT_DIR$/pro-netty-rpc/pro-netty-rpc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pro-user-api/pro-user-api.iml" filepath="$PROJECT_DIR$/pro-user-api/pro-user-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pro-user-core/pro-user-core.iml" filepath="$PROJECT_DIR$/pro-user-core/pro-user-core.iml" />
     </modules>
   </component>
 </project>
