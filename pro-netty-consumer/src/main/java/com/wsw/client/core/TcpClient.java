@@ -19,6 +19,8 @@ import io.netty.handler.codec.Delimiters;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 import org.apache.curator.framework.CuratorFramework;
+import org.apache.curator.framework.api.CuratorWatcher;
+import org.apache.zookeeper.Watcher;
 
 import java.util.HashSet;
 import java.util.List;
@@ -47,29 +49,46 @@ public class TcpClient {
         int port = 8080;
         try {
             List<String> serverPaths = client.getChildren().forPath(Constants.SERVER_PATH);
-            Set<String> realServerPath = new HashSet<String>();
+            CuratorWatcher watcher = new ServerWatcher();
+            //加上zk监听服务器的变化
+            client.getChildren().usingWatcher(watcher).forPath(Constants.SERVER_PATH);
+
             for (String serverPath : serverPaths) {
-                realServerPath.add(serverPath.split("#")[0]);
+                String[] str = serverPath.split("#");
+                int weight = Integer.parseInt(str[2]);
+                if (weight > 0) {
+                    for (int w = 0; w <= weight; w++) {
+                        ChannelFuture channelFuture = TcpClient.b.connect(str[0], Integer.parseInt(str[1]));
+                        ChannelManager.realServerPath.add(str[0] + "#" + str[1]);
+                        ChannelManager.add(channelFuture);
+                    }
+                }
             }
-            if (realServerPath.size() > 0) {
-                host = realServerPath.toArray()[0].toString();
+
+            if (ChannelManager.realServerPath.size() > 0) {
+                String[] hostAndPort = ChannelManager.realServerPath.toArray()[0].toString().split("#");
+                host = hostAndPort[0];
+                port =  Integer.parseInt(hostAndPort[1]);
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
 
 
-        try {
-            f = b.connect(host, port).sync(); // (5)
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            f = b.connect(host, port).sync(); // (5)
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
     }
+
 
     //注意：1.每一个请求都是同一个连接，并发问题
     //发送数据
     public static Response send(ClientRequest request) {
         //System.out.println("TCP:sending request");
+        f = ChannelManager.get(ChannelManager.position);
         f.channel().writeAndFlush(JSONObject.toJSONString(request));
         f.channel().writeAndFlush("\r\n");
         //System.out.println("TCP:WAITING FOR RESULT");

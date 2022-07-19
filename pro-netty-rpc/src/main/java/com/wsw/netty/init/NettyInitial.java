@@ -46,13 +46,15 @@ public class NettyInitial implements ApplicationListener<ContextRefreshedEvent> 
                         }
                     });
 
+            int port = 8080;
+            int weight = 2;
             ChannelFuture f = bootstrap.bind(8080).sync();
             //create client
             CuratorFramework client = ZookeeperFactory.create();
             //get IP address
             InetAddress netAddress = InetAddress.getLocalHost();
             //注册服务器到zookeeper（临时会话）
-            client.create().withMode(CreateMode.EPHEMERAL_SEQUENTIAL).forPath(Constants.SERVER_PATH + netAddress.getHostAddress() + "#");
+            client.create().withMode(CreateMode.EPHEMERAL_SEQUENTIAL).forPath(Constants.SERVER_PATH + "/" + netAddress.getHostAddress() + "#" + port + "#" + weight + "#");
 
             f.channel().closeFuture().sync();
             System.out.println("server is ready");

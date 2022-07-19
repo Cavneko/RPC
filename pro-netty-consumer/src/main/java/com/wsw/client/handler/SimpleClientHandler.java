@@ -1,5 +1,6 @@
 package com.wsw.client.handler;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.wsw.client.core.DefaultFuture;
 import com.wsw.client.param.Response;
@@ -16,6 +17,7 @@ public class SimpleClientHandler extends ChannelInboundHandlerAdapter {
         }
         //ctx.channel().attr(AttributeKey.valueOf("ssss")).set(msg);
         Response response = JSONObject.parseObject(msg.toString(), Response.class);
+        System.out.println("接受服务器返回数据" + JSONObject.toJSONString(response));
         DefaultFuture.receive(response);
         //ctx.channel().close();
     }
